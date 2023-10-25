@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface WeatherRepository extends JpaRepository<WeatherEntity, String> {
 
     //Son kaydın ne zaman atıldığını bulmak için kullanılan sorgu
-    Optional<WeatherEntity> findFirstByRequestedCityNameOrderByUpdatedTimeDesc(String city);
+    Optional<WeatherEntity> findFirstByRequestCityNameOrderByUpdatedTimeDesc(String city);
 }
