@@ -40,7 +40,7 @@ public class WeatherService {
 
         try {
             WeatherResponse weatherResponse = objectMapper.readValue(responseEntity.getBody(), WeatherResponse.class);
-            return saveWeatherEntity(city, weatherResponse());
+            return saveWeatherEntity(city, weatherResponse);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
