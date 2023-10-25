@@ -28,14 +28,14 @@ public class WeatherService {
     }
 
     public WeatherDto getWeatherByCityName(String city) {
-        Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByRequestedCityNameOrderByUpdatedTimeDesc(city);
+        Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByRequestCityNameOrderByUpdatedTimeDesc(city);
         if (weatherEntityOptional.isPresent()) {
             return WeatherDto.convert(getWeatherFromWeatherStack(city));
         }
         return WeatherDto.convert(weatherEntityOptional.get());
     }
 
-    public WeatherEntity getWeatherFromWeatherStack(String city) {
+    private WeatherEntity getWeatherFromWeatherStack(String city) {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(API_URL + city, String.class);
 
         try {
