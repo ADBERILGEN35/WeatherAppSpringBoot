@@ -29,10 +29,12 @@ public class WeatherService {
 
     public WeatherDto getWeatherByCityName(String city) {
         Optional<WeatherEntity> weatherEntityOptional = weatherRepository.findFirstByRequestCityNameOrderByUpdatedTimeDesc(city);
-        if (weatherEntityOptional.isPresent()) {
-            return WeatherDto.convert(getWeatherFromWeatherStack(city));
-        }
-        return WeatherDto.convert(weatherEntityOptional.get());
+        return weatherEntityOptional.map(weather -> {
+            if (weather.getUpdatedTime().isBefore(LocalDateTime.now().minusMinutes(30))) {
+                return WeatherDto.convert(getWeatherFromWeatherStack(city));
+            }
+            return WeatherDto.convert(weather);
+        }).orElseGet(() -> WeatherDto.convert(getWeatherFromWeatherStack(city)));
     }
 
     private WeatherEntity getWeatherFromWeatherStack(String city) {
@@ -51,9 +53,9 @@ public class WeatherService {
         WeatherEntity weatherEntity = new WeatherEntity(city,
                 weatherResponse.location().name(),
                 weatherResponse.location().country(),
-                weatherResponse.current().tempature(),
+                weatherResponse.current().temperature(),
                 LocalDateTime.now(),
-                LocalDateTime.parse(weatherResponse.location().localTime(), dateTimeFormatter)
+                LocalDateTime.parse(weatherResponse.location().localtime(), dateTimeFormatter)
         );
         return weatherRepository.save(weatherEntity);
     }
