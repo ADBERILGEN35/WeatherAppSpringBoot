@@ -1,5 +1,6 @@
 package com.adberilgen.weather.service;
 
+import com.adberilgen.weather.constants.Constants;
 import com.adberilgen.weather.dto.WeatherDto;
 import com.adberilgen.weather.dto.WeatherResponse;
 import com.adberilgen.weather.model.WeatherEntity;
@@ -20,7 +21,6 @@ public class WeatherService {
     private final WeatherRepository weatherRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String API_URL = "http://api.weatherstack.com/current?access_key=e36c2fd8b5a1a0919445d0a3f00576aa&query=";
 
     public WeatherService(WeatherRepository weatherRepository, RestTemplate restTemplate, RestTemplate restTemplate1) {
         this.weatherRepository = weatherRepository;
@@ -38,7 +38,7 @@ public class WeatherService {
     }
 
     private WeatherEntity getWeatherFromWeatherStack(String city) {
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(API_URL + city, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(getWeatherStackUrl(city), String.class);
 
         try {
             WeatherResponse weatherResponse = objectMapper.readValue(responseEntity.getBody(), WeatherResponse.class);
@@ -46,6 +46,10 @@ public class WeatherService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getWeatherStackUrl(String city) {
+        return Constants.API_URL + Constants.ACCESS_KEY_PARAM + Constants.API_KEY + Constants.QUERY_KEY_PARAM + city;
     }
 
     private WeatherEntity saveWeatherEntity(String city, WeatherResponse weatherResponse) {
