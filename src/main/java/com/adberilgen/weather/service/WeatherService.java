@@ -1,6 +1,5 @@
 package com.adberilgen.weather.service;
 
-import com.adberilgen.weather.constants.Constants;
 import com.adberilgen.weather.dto.WeatherDto;
 import com.adberilgen.weather.dto.WeatherResponse;
 import com.adberilgen.weather.model.WeatherEntity;
@@ -14,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import static com.adberilgen.weather.constants.Constants.*;
 
 @Service
 public class WeatherService {
@@ -49,7 +50,7 @@ public class WeatherService {
     }
 
     private String getWeatherStackUrl(String city) {
-        return Constants.API_URL + Constants.ACCESS_KEY_PARAM + Constants.API_KEY + Constants.QUERY_KEY_PARAM + city;
+        return WEATHER_STACK_API_BASE_URL + WEATHER_STACK_API_ACCESS_KEY_PARAM + API_KEY + WEATHER_STACK_API_QUERY_PARAM + city;
     }
 
     private WeatherEntity saveWeatherEntity(String city, WeatherResponse weatherResponse) {
