@@ -9,7 +9,7 @@ services:
       mode: replicated
       replicas: 3
     ports:
-      - "9600-9602:8080"
+      - "9603-9605:8080"
     environment:
       - "WEATHER_STACK_API_KEY=${WEATHER_STACK_API_KEY}"
   prometheus:
@@ -37,7 +37,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SERVER_DOMAIN=localhost
     networks:
-      -weather-network:
+      weather-network:
 
 networks:
   weather-network:

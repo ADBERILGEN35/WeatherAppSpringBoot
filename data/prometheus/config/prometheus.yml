@@ -18,6 +18,6 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 2s
     static_configs:
-      - targets: [ 'open-weather-service-app-1:8080','open-weather-service-app-2:8080','open-weather-service-app-3:8080' ]
+      - targets: [ 'weather-service-app-1:8080','weather-service-app-2:8080','weather-service-app-3:8080' ]
         labels:
-          application: 'Open Weather Service API'
+          application: 'Weather Service API'
