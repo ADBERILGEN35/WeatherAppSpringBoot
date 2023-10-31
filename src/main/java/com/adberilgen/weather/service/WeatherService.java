@@ -6,6 +6,7 @@ import com.adberilgen.weather.model.WeatherEntity;
 import com.adberilgen.weather.repository.WeatherRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class WeatherService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private final Dotenv dotenv = Dotenv.load();
     private static final Logger logger = LoggerFactory.getLogger(WeatherService.class);
 
     public WeatherService(WeatherRepository weatherRepository, RestTemplate restTemplate, RestTemplate restTemplate1) {
@@ -69,6 +71,7 @@ public class WeatherService {
     }
 
     private String getWeatherStackUrl(String city) {
+        API_KEY = dotenv.get("WEATHER_STACK_API_KEY");
         return WEATHER_STACK_API_BASE_URL + WEATHER_STACK_API_ACCESS_KEY_PARAM + API_KEY + WEATHER_STACK_API_QUERY_PARAM + city;
     }
 
